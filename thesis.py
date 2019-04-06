@@ -10,10 +10,6 @@ import ntpath
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 class Ui_MainWindow(object):
-
-    def __init__(self):
-        self.inputImages = []
-
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(890, 668)
@@ -130,13 +126,8 @@ class Ui_MainWindow(object):
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
-
-
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
-        self.BrowseBtn.clicked.connect(self.browse_files)
-        self.CheckImagesBtn.clicked.connect(self.check_images)
-
 
 
     def retranslateUi(self, MainWindow):
@@ -150,6 +141,14 @@ class Ui_MainWindow(object):
         self.RunBtn.setText(_translate("MainWindow", "Run Classification"))
         self.ClearBtn.setText(_translate("MainWindow", "Clear"))
 
+
+class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
+    def __init__(self, parent=None):
+        super(MainWindow, self).__init__(parent)
+        self.setupUi(self)
+        self.inputImages = []
+        self.CheckImagesBtn.clicked.connect(self.check_images)
+        self.BrowseBtn.clicked.connect(self.browse_files)
 
     @QtCore.pyqtSlot()
     def browse_files(self):
@@ -199,9 +198,7 @@ class Ui_MainWindow(object):
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_MainWindow()
-    ui.setupUi(MainWindow)
-    MainWindow.show()
+    w = MainWindow()
+    w.show()
     sys.exit(app.exec_())
 
